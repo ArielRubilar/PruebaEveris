@@ -1,0 +1,97 @@
+<div id="private-layout-two-column" class="container-fluid">
+        
+    <div class="header-wrapper row">
+        <public-header></public-header>
+    </div>
+
+    <div class="nav-wrapper row">
+        <private-nav></private-nav>
+    </div>
+    
+    <div class="central-wrapper row">
+        <aside class="col-xs-12 col-lg-3">
+            <private-aside></private-aside>
+
+        </aside>
+
+        <section class="col-xs-12 col-lg-6">
+            <article>
+                <header>
+                    <h3>Bienvenido a la tienda</h3>
+                </header>
+             
+                <ul class="media-list">
+                        <li  ng-repeat="producto in tiendaCtrl.productos">
+                            <div class="row">
+                                    <img class="col-xs-3"src="{{producto.urlImagen}}" alt="">
+                                <div class="col-xs-6">
+                                    <strong>{{producto.nombre}}|Precio:CLP {{producto.precio}}|</strong><br>
+                                    {{producto.desc}}
+                                </div>
+                                <div class="col-xs-3">
+                                    <form name="tiendaCtrl.form{{$index}}" class="form-inline"novalidate>
+                                        <div class="form-group row" ng-class="tiendaCtrl.form{{$index}}.producto_{{$index}}.$invalid && tiendaCtrl.form{{$index}}.producto_{{$index}}.$touched && !tiendaCtrl.form{{$index}}.producto_{{$index}}.$error.required ?'has-error':'' ">
+                                            <input class="form-control" type="number" min="1" max="5" required name="producto_{{$index}}" ng-model="tiendaCtrl.cant[$index]">
+                                            <button class="btn btn-success" ng-disabled="tiendaCtrl.form{{$index}}.$invalid" ng-click="tiendaCtrl.addProducto($index)">Agregar</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                
+                            </div>
+                            <br>
+                        </li>
+                      
+                </ul>
+            </article>
+        </section>
+        <aside class="col-xs-12 col-lg-3 ">
+            <div class="alert alert-info row">
+                Carrito
+                <table class="table col-xs-12" ng-if="tiendaCtrl.carrito.cantidadTotal > 0">
+                    <thead>
+                        <tr>
+                            <td>Producto</td>
+                            <td>Precio</td>
+                            <td>Cantidad</td>
+                            <td></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in tiendaCtrl.carrito.items">
+                            <td>{{item.nombre}}</td>
+                            <td>CLP ${{item.precio * item.cantidad}}</td>
+                            <td>{{item.cantidad}}</td>
+                            <td><button class="btn btn-danger" ng-click="tiendaCtrl.deleteProducto($index)">Eliminar</button></td>
+                        </tr>
+                    </tbody>
+                   <tfoot>
+                       <tr>
+                           <td>Total:</td>
+                           <td>{{tiendaCtrl.carrito.precioTotal}}</td>
+                           <td>{{tiendaCtrl.carrito.cantidadTotal}}</td>
+                           <td><button class="btn btn-success" ng-click="tiendaCtrl.comprar()">Comprar</button></td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <p ng-if="tiendaCtrl.carrito.cantidadTotal == 0 && !tiendaCtrl.compraOk">
+                    No hay item en el Carrito
+                </p>
+                <p ng-if="tiendaCtrl.compraOk">
+                    La comrpa ha sido exitosa. <a href="{{tiendaCtrl.rutas.appBaseUrl+tiendaCtrl.rutas.compra}}">Ir a mis Compras</a>
+                </p>
+            </div>
+     </aside>
+    </div>
+    
+    <div class="footer-wrapper row">
+        <footer class="col-xs-12">
+                <header>
+                    <h2>Links Oficiales</h2>
+                </header>
+                <a href="#/">Inicio</a> |
+                <a href="http://www.queenonline.com/" target="_blank">Sitio Oficial</a> | 
+                <a href="#/contacto">Contacto</a>
+        </footer>
+    </div>
+
+</div>
